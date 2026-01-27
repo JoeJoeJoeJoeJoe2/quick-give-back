@@ -7,7 +7,7 @@ import { mockOpportunities } from "@/data/mockOpportunities";
 import { FilterState } from "@/types/volunteer";
 import { isToday, isThisWeek, isThisMonth, parseISO } from "date-fns";
 
-const Index = () => {
+const Search = () => {
   const [location, setLocation] = useState("San Francisco, CA");
   const [filters, setFilters] = useState<FilterState>({
     cause: "all",
@@ -52,16 +52,12 @@ const Index = () => {
       <Header />
       
       <main className="container py-8">
-        {/* Hero Section */}
-        <section className="text-center mb-10">
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
-            Find Volunteer Opportunities Near You
+        {/* Search Section */}
+        <section className="mb-8">
+          <h1 className="text-2xl font-bold text-foreground mb-4">
+            Search Volunteer Opportunities
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            Discover meaningful ways to give back to your community. No sign-up required—just browse and connect.
-          </p>
-          
-          <div className="max-w-xl mx-auto">
+          <div className="max-w-xl">
             <LocationInput
               currentLocation={location}
               onLocationChange={setLocation}
@@ -85,7 +81,7 @@ const Index = () => {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-sm font-medium text-foreground">
-            {filteredOpportunities.length} opportunity
+            {filteredOpportunities.length} opportunit
             {filteredOpportunities.length !== 1 ? "ies" : "y"} found
           </p>
         </div>
@@ -104,4 +100,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Search;
