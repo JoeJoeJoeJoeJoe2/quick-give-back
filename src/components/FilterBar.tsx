@@ -26,8 +26,8 @@ const causeOptions: { value: CauseArea | "all"; label: string }[] = [
 
 export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
   return (
-    <div className="flex flex-wrap items-end gap-4 p-4 rounded-xl bg-card border border-border card-shadow">
-      <div className="flex-1 min-w-[160px]">
+    <div className="flex flex-col gap-4">
+      <div>
         <Label className="text-sm font-medium text-muted-foreground mb-2 block">
           Cause Area
         </Label>
@@ -40,7 +40,7 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
           <SelectTrigger className="h-10 bg-background">
             <SelectValue placeholder="Select cause" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-popover z-50">
             {causeOptions.map((option) => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
@@ -50,7 +50,7 @@ export function FilterBar({ filters, onFilterChange }: FilterBarProps) {
         </Select>
       </div>
 
-      <div className="flex-1 min-w-[200px]">
+      <div>
         <Label className="text-sm font-medium text-muted-foreground mb-2 block">
           Search Radius: {filters.maxDistance} miles
         </Label>
