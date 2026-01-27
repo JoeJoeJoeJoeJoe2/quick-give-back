@@ -1,6 +1,9 @@
 import { useState, useCallback } from "react";
 import { VolunteerPlace, CauseArea, LoadingState } from "@/types/volunteer";
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
 interface GeocodingResult {
   lat: string;
   lon: string;
@@ -106,13 +109,12 @@ export function useVolunteerPlaces() {
     });
 
     try {
-      // Step 1: Geocode the location
+      // Step 1: Geocode the location via edge function proxy
       const geoResponse = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1`,
+        `${SUPABASE_URL}/functions/v1/geo-proxy?service=nominatim&q=${encodeURIComponent(location)}&limit=1`,
         {
           headers: {
-            "Accept-Language": "en",
-            "User-Agent": "VolunteerFinder/1.0 (https://lovable.app)",
+            Authorization: `Bearer ${SUPABASE_KEY}`,
           },
         }
       );
@@ -164,14 +166,17 @@ export function useVolunteerPlaces() {
         out center;
       `;
 
-      const overpassResponse = await fetch("https://overpass-api.de/api/interpreter", {
-        method: "POST",
-        body: `data=${encodeURIComponent(overpassQuery)}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "User-Agent": "VolunteerFinder/1.0 (https://lovable.app)",
-        },
-      });
+      const overpassResponse = await fetch(
+        `${SUPABASE_URL}/functions/v1/geo-proxy?service=overpass`,
+        {
+          method: "POST",
+          body: `data=${encodeURIComponent(overpassQuery)}`,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+        }
+      );
 
       if (!overpassResponse.ok) {
         throw new Error("Failed to search for places. Please try again.");
