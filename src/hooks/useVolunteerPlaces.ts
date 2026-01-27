@@ -109,7 +109,12 @@ export function useVolunteerPlaces() {
       // Step 1: Geocode the location
       const geoResponse = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1`,
-        { headers: { "Accept-Language": "en" } }
+        {
+          headers: {
+            "Accept-Language": "en",
+            "User-Agent": "VolunteerFinder/1.0 (https://lovable.app)",
+          },
+        }
       );
 
       if (!geoResponse.ok) {
@@ -164,6 +169,7 @@ export function useVolunteerPlaces() {
         body: `data=${encodeURIComponent(overpassQuery)}`,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": "VolunteerFinder/1.0 (https://lovable.app)",
         },
       });
 
