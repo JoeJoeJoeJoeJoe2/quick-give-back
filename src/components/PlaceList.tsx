@@ -1,5 +1,5 @@
 import { VolunteerPlace, LoadingState } from "@/types/volunteer";
-import { PlaceCard } from "./PlaceCard";
+import { PlaceCardGoogle } from "./PlaceCardGoogle";
 import { LoadingProgress } from "./LoadingProgress";
 import { Heart, AlertCircle } from "lucide-react";
 
@@ -70,7 +70,7 @@ export function PlaceList({ places, loadingState, error }: PlaceListProps) {
           className="animate-fade-in"
           style={{ animationDelay: `${index * 50}ms` }}
         >
-          <PlaceCard place={place} />
+          <PlaceCardGoogle place={place} />
         </div>
       ))}
     </div>

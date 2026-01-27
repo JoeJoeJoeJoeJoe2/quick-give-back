@@ -14,7 +14,7 @@ export function LocationInput({ onLocationChange, currentLocation }: LocationInp
   const [showSuggestions, setShowSuggestions] = useState(false);
   const { suggestions, isLoading, searchLocations, clearSuggestions } = useLocationSearch();
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -70,13 +70,13 @@ export function LocationInput({ onLocationChange, currentLocation }: LocationInp
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}
             onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-            className="pl-10 h-11 bg-card border-border"
+            className="pl-10 h-14 text-base bg-card border-border"
           />
           {isLoading && (
             <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground animate-spin" />
           )}
         </div>
-        <Button type="submit" className="h-11 px-5">
+        <Button type="submit" className="h-14 px-6">
           <Search className="h-4 w-4 mr-2" />
           Search
         </Button>

@@ -5,9 +5,12 @@ import { FilterBar } from "@/components/FilterBar";
 import { PlaceList } from "@/components/PlaceList";
 import { useVolunteerPlaces } from "@/hooks/useVolunteerPlaces";
 import { FilterState } from "@/types/volunteer";
+import { Button } from "@/components/ui/button";
+import { SlidersHorizontal } from "lucide-react";
 
 const Search = () => {
   const [location, setLocation] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     cause: "all",
     maxDistance: 10,
@@ -34,26 +37,55 @@ const Search = () => {
     return places.filter((place) => place.type === filters.cause);
   }, [places, filters.cause]);
 
+  const isInitial = !location && !loadingState.isLoading && places.length === 0 && !error;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
       
-      <main className="container py-8">
-        {/* Search Section */}
-        <section className="mb-8">
-          <h1 className="text-2xl font-bold text-foreground mb-4">
-            Search Volunteer Opportunities
-          </h1>
-          <div className="max-w-xl">
-            <LocationInput
-              currentLocation={location}
-              onLocationChange={handleLocationChange}
-            />
+      <main className="container py-8 flex-1 flex flex-col">
+        {/* Search + Filters */}
+        <section className={isInitial ? "flex-1 flex items-center justify-center" : "mb-8"}>
+          <div className="w-full max-w-2xl">
+            <h1 className={isInitial ? "text-3xl font-bold text-foreground mb-6 text-center" : "text-2xl font-bold text-foreground mb-4"}>
+              Search Volunteer Opportunities
+            </h1>
+
+            <div className={isInitial ? "mx-auto" : ""}>
+              <LocationInput
+                currentLocation={location}
+                onLocationChange={handleLocationChange}
+              />
+            </div>
+
+            <div className="mt-4 flex items-center justify-center">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setFiltersOpen((v) => !v)}
+                className="gap-2"
+              >
+                <SlidersHorizontal className="h-4 w-4" />
+                Filters
+              </Button>
+            </div>
+
+            {filtersOpen && (
+              <div className="mt-4">
+                <FilterBar filters={filters} onFilterChange={setFilters} />
+              </div>
+            )}
+
+            {isInitial && (
+              <p className="mt-6 text-center text-sm text-muted-foreground">
+                Enter a city or ZIP code to discover nearby places where you can volunteer.
+              </p>
+            )}
           </div>
         </section>
 
         {/* Location Display */}
-        {location && (
+        {!isInitial && location && (
           <div className="mb-6">
             <p className="text-sm text-muted-foreground">
               Showing opportunities near{" "}
@@ -61,11 +93,6 @@ const Search = () => {
             </p>
           </div>
         )}
-
-        {/* Filters */}
-        <section className="mb-8">
-          <FilterBar filters={filters} onFilterChange={setFilters} />
-        </section>
 
         {/* Results Count */}
         {!loadingState.isLoading && places.length > 0 && (
@@ -78,11 +105,13 @@ const Search = () => {
         )}
 
         {/* Place List */}
-        <PlaceList 
-          places={filteredPlaces} 
-          loadingState={loadingState}
-          error={error}
-        />
+        {!isInitial && (
+          <PlaceList
+            places={filteredPlaces}
+            loadingState={loadingState}
+            error={error}
+          />
+        )}
       </main>
 
       {/* Footer */}
