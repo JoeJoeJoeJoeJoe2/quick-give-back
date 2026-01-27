@@ -1,51 +1,38 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { LocationInput } from "@/components/LocationInput";
 import { FilterBar } from "@/components/FilterBar";
-import { OpportunityList } from "@/components/OpportunityList";
-import { mockOpportunities } from "@/data/mockOpportunities";
+import { PlaceList } from "@/components/PlaceList";
+import { useVolunteerPlaces } from "@/hooks/useVolunteerPlaces";
 import { FilterState } from "@/types/volunteer";
-import { isToday, isThisWeek, isThisMonth, parseISO } from "date-fns";
 
 const Search = () => {
-  const [location, setLocation] = useState("San Francisco, CA");
+  const [location, setLocation] = useState("");
   const [filters, setFilters] = useState<FilterState>({
     cause: "all",
     maxDistance: 10,
-    dateRange: "any",
   });
 
-  const filteredOpportunities = useMemo(() => {
-    return mockOpportunities.filter((opp) => {
-      // Filter by cause
-      if (filters.cause !== "all" && opp.cause !== filters.cause) {
-        return false;
-      }
+  const { places, loadingState, error, searchPlaces } = useVolunteerPlaces();
 
-      // Filter by distance
-      if (opp.distance > filters.maxDistance) {
-        return false;
-      }
+  // Trigger search when location changes
+  const handleLocationChange = (newLocation: string) => {
+    setLocation(newLocation);
+    searchPlaces(newLocation, filters.maxDistance);
+  };
 
-      // Filter by date
-      if (filters.dateRange !== "any") {
-        const oppDate = parseISO(opp.date);
-        switch (filters.dateRange) {
-          case "today":
-            if (!isToday(oppDate)) return false;
-            break;
-          case "this-week":
-            if (!isThisWeek(oppDate)) return false;
-            break;
-          case "this-month":
-            if (!isThisMonth(oppDate)) return false;
-            break;
-        }
-      }
+  // Re-search when radius changes (if we have a location)
+  useEffect(() => {
+    if (location && loadingState.step === "complete") {
+      searchPlaces(location, filters.maxDistance);
+    }
+  }, [filters.maxDistance]);
 
-      return true;
-    });
-  }, [filters]);
+  // Filter places by cause area
+  const filteredPlaces = useMemo(() => {
+    if (filters.cause === "all") return places;
+    return places.filter((place) => place.type === filters.cause);
+  }, [places, filters.cause]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -60,18 +47,20 @@ const Search = () => {
           <div className="max-w-xl">
             <LocationInput
               currentLocation={location}
-              onLocationChange={setLocation}
+              onLocationChange={handleLocationChange}
             />
           </div>
         </section>
 
         {/* Location Display */}
-        <div className="mb-6">
-          <p className="text-sm text-muted-foreground">
-            Showing opportunities near{" "}
-            <span className="font-medium text-foreground">{location}</span>
-          </p>
-        </div>
+        {location && (
+          <div className="mb-6">
+            <p className="text-sm text-muted-foreground">
+              Showing opportunities near{" "}
+              <span className="font-medium text-foreground">{location}</span>
+            </p>
+          </div>
+        )}
 
         {/* Filters */}
         <section className="mb-8">
@@ -79,15 +68,21 @@ const Search = () => {
         </section>
 
         {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-sm font-medium text-foreground">
-            {filteredOpportunities.length} opportunit
-            {filteredOpportunities.length !== 1 ? "ies" : "y"} found
-          </p>
-        </div>
+        {!loadingState.isLoading && places.length > 0 && (
+          <div className="mb-6">
+            <p className="text-sm font-medium text-foreground">
+              {filteredPlaces.length} opportunit
+              {filteredPlaces.length !== 1 ? "ies" : "y"} found
+            </p>
+          </div>
+        )}
 
-        {/* Opportunity List */}
-        <OpportunityList opportunities={filteredOpportunities} />
+        {/* Place List */}
+        <PlaceList 
+          places={filteredPlaces} 
+          loadingState={loadingState}
+          error={error}
+        />
       </main>
 
       {/* Footer */}

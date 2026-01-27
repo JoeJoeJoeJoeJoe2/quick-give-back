@@ -6,24 +6,26 @@ export type CauseArea =
   | "community"
   | "food";
 
-export interface VolunteerOpportunity {
+export interface VolunteerPlace {
   id: string;
-  title: string;
-  organization: string;
-  description: string;
-  cause: CauseArea;
-  date: string;
-  time: string;
-  duration: string;
-  location: string;
+  name: string;
+  type: CauseArea;
+  address: string;
+  lat: number;
+  lon: number;
   distance: number;
-  spotsLeft: number;
-  signupUrl: string;
-  imageUrl?: string;
+  osmUrl: string;
+  googleMapsUrl: string;
+  tags?: Record<string, string>;
 }
 
 export interface FilterState {
   cause: CauseArea | "all";
   maxDistance: number;
-  dateRange: "any" | "today" | "this-week" | "this-month";
+}
+
+export interface LoadingState {
+  isLoading: boolean;
+  step: "idle" | "geocoding" | "searching" | "processing" | "complete";
+  message: string;
 }
