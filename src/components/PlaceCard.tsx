@@ -1,4 +1,4 @@
-import { MapPin, ExternalLink, Navigation } from "lucide-react";
+import { MapPin, Navigation } from "lucide-react";
 import { VolunteerPlace } from "@/types/volunteer";
 import { CauseBadge } from "./CauseBadge";
 import { Button } from "@/components/ui/button";
@@ -8,12 +8,17 @@ interface PlaceCardProps {
 }
 
 export function PlaceCard({ place }: PlaceCardProps) {
+  // Build a proper Google Maps search URL using the place name and address
+  const googleMapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(place.name + ", " + place.address)}`;
+
   return (
-    <article className="group flex flex-col rounded-xl border border-border bg-card overflow-hidden card-shadow transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1">
-      <div className="p-5 flex-1">
+    <article className="group flex flex-col rounded-xl border border-border overflow-hidden card-shadow transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1 bg-gradient-to-br from-card via-card to-card/80 backdrop-blur-sm">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
+      
+      <div className="p-5 flex-1 relative">
         <div className="flex items-start justify-between gap-3 mb-3">
           <CauseBadge cause={place.type} />
-          <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+          <span className="text-xs font-medium text-muted-foreground whitespace-nowrap px-2 py-1 rounded-full bg-muted/50">
             {place.distance} mi
           </span>
         </div>
@@ -28,25 +33,15 @@ export function PlaceCard({ place }: PlaceCardProps) {
         </div>
       </div>
 
-      <div className="p-4 pt-0 flex gap-2">
-        <Button asChild variant="outline" className="flex-1 group/btn">
+      <div className="p-4 pt-0 flex justify-center">
+        <Button asChild className="w-full max-w-xs group/btn">
           <a
-            href={place.osmUrl}
+            href={googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
-            OpenStreetMap
-            <ExternalLink className="h-4 w-4 ml-2 transition-transform group-hover/btn:translate-x-0.5" />
-          </a>
-        </Button>
-        <Button asChild className="flex-1 group/btn">
-          <a
-            href={place.googleMapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Maps
-            <Navigation className="h-4 w-4 ml-2 transition-transform group-hover/btn:translate-x-0.5" />
+            <Navigation className="h-4 w-4 mr-2 transition-transform group-hover/btn:translate-x-0.5" />
+            View on Google Maps
           </a>
         </Button>
       </div>
