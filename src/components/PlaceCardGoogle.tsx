@@ -8,13 +8,7 @@ interface PlaceCardGoogleProps {
 }
 
 function buildGoogleMapsUrl(place: VolunteerPlace) {
-  // Prefer coordinates (most reliable), fall back to a query string.
-  if (Number.isFinite(place.lat) && Number.isFinite(place.lon)) {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      `${place.lat},${place.lon}`,
-    )}`;
-  }
-
+  // User-friendly Google Maps search link (works when pasted into a normal browser tab)
   return `https://www.google.com/maps/search/${encodeURIComponent(
     `${place.name}, ${place.address}`,
   )}`;
