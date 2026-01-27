@@ -6,6 +6,11 @@ import { PlaceList } from "@/components/PlaceList";
 import { useVolunteerPlaces } from "@/hooks/useVolunteerPlaces";
 import { FilterState } from "@/types/volunteer";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { SlidersHorizontal } from "lucide-react";
 
 const Search = () => {
@@ -21,6 +26,7 @@ const Search = () => {
   // Trigger search when location changes
   const handleLocationChange = (newLocation: string) => {
     setLocation(newLocation);
+    setFiltersOpen(false);
     searchPlaces(newLocation, filters.maxDistance);
   };
 
@@ -52,29 +58,35 @@ const Search = () => {
             </h1>
 
             <div className={isInitial ? "mx-auto" : ""}>
-              <LocationInput
-                currentLocation={location}
-                onLocationChange={handleLocationChange}
-              />
-            </div>
+              <div className="relative flex items-start gap-2">
+                <div className="flex-1">
+                  <LocationInput
+                    currentLocation={location}
+                    onLocationChange={handleLocationChange}
+                  />
+                </div>
 
-            <div className="mt-4 flex items-center justify-center">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setFiltersOpen((v) => !v)}
-                className="gap-2"
-              >
-                <SlidersHorizontal className="h-4 w-4" />
-                Filters
-              </Button>
-            </div>
-
-            {filtersOpen && (
-              <div className="mt-4">
-                <FilterBar filters={filters} onFilterChange={setFilters} />
+                <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-14 w-14 shrink-0"
+                      aria-label="Filters"
+                    >
+                      <SlidersHorizontal className="h-5 w-5" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    align="end"
+                    className="w-80 bg-card border-border z-50"
+                  >
+                    <FilterBar filters={filters} onFilterChange={setFilters} />
+                  </PopoverContent>
+                </Popover>
               </div>
-            )}
+            </div>
 
             {isInitial && (
               <p className="mt-6 text-center text-sm text-muted-foreground">

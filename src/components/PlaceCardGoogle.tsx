@@ -20,20 +20,6 @@ function buildGoogleMapsUrl(place: VolunteerPlace) {
   )}`;
 }
 
-function openExternal(url: string) {
-  // Lovable preview runs inside an iframe; Google refuses to load in iframes.
-  // Try a real new tab first; if popups are blocked, fall back to top-level navigation.
-  const opened = window.open(url, "_blank", "noopener,noreferrer");
-  if (opened) return;
-
-  try {
-    window.top?.location.assign(url);
-  } catch {
-    // Last resort (may still be blocked in an iframe, but avoids hard crashes)
-    window.location.assign(url);
-  }
-}
-
 export function PlaceCardGoogle({ place }: PlaceCardGoogleProps) {
   const googleMapsUrl = buildGoogleMapsUrl(place);
 
@@ -62,13 +48,11 @@ export function PlaceCardGoogle({ place }: PlaceCardGoogleProps) {
       </div>
 
       <div className="relative p-4 pt-0 flex justify-center">
-        <Button
-          type="button"
-          className="w-full max-w-xs justify-center group/btn"
-          onClick={() => openExternal(googleMapsUrl)}
-        >
-          <Navigation className="h-4 w-4 mr-2 transition-transform group-hover/btn:translate-x-0.5" />
-          View on Google Maps
+        <Button asChild className="w-full max-w-xs justify-center group/btn">
+          <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
+            <Navigation className="h-4 w-4 mr-2 transition-transform group-hover/btn:translate-x-0.5" />
+            View on Google Maps
+          </a>
         </Button>
       </div>
     </article>
