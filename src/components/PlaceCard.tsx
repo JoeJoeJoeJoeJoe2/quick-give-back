@@ -34,15 +34,12 @@ export function PlaceCard({ place }: PlaceCardProps) {
       </div>
 
       <div className="p-4 pt-0 flex justify-center">
-        <Button asChild className="w-full max-w-xs group/btn">
-          <a
-            href={googleMapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Navigation className="h-4 w-4 mr-2 transition-transform group-hover/btn:translate-x-0.5" />
-            View on Google Maps
-          </a>
+        <Button 
+          className="w-full max-w-xs group/btn"
+          onClick={() => window.open(googleMapsUrl, '_blank', 'noopener,noreferrer')}
+        >
+          <Navigation className="h-4 w-4 mr-2 transition-transform group-hover/btn:translate-x-0.5" />
+          View on Google Maps
         </Button>
       </div>
     </article>
