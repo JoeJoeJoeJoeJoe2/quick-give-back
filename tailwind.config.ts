@@ -81,6 +81,8 @@ export default {
         soft: "var(--shadow-soft)",
         card: "var(--shadow-card)",
         "card-hover": "var(--shadow-hover)",
+        apple: "0 4px 16px -2px hsl(var(--foreground) / 0.08), 0 2px 6px -2px hsl(var(--foreground) / 0.04)",
+        "apple-hover": "0 12px 32px -4px hsl(var(--foreground) / 0.12), 0 4px 12px -2px hsl(var(--foreground) / 0.06)",
       },
       keyframes: {
         "accordion-down": {
