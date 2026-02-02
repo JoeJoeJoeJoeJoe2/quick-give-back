@@ -1,34 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { Heart, MapPin, Clock, Users, ArrowRight } from "lucide-react";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient orbs */}
-        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-primary/20 blur-[100px] animate-float-slow" />
-        <div className="absolute top-[30%] right-[-15%] w-[600px] h-[600px] rounded-full bg-accent/15 blur-[120px] animate-float-medium" />
-        <div className="absolute bottom-[-10%] left-[20%] w-[400px] h-[400px] rounded-full bg-primary/15 blur-[80px] animate-float-fast" />
-        
-        {/* Grid pattern overlay */}
-        <div 
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--foreground)) 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }}
-        />
-        
-        {/* Floating shapes */}
-        <div className="absolute top-[15%] left-[10%] w-3 h-3 rounded-full bg-primary/40 animate-float-particle-1" />
-        <div className="absolute top-[25%] right-[20%] w-2 h-2 rounded-full bg-accent/50 animate-float-particle-2" />
-        <div className="absolute top-[60%] left-[15%] w-2 h-2 rounded-full bg-primary/30 animate-float-particle-3" />
-        <div className="absolute bottom-[30%] right-[10%] w-4 h-4 rounded-full bg-primary/25 animate-float-particle-1" />
-        <div className="absolute top-[40%] left-[80%] w-2 h-2 rounded-full bg-accent/40 animate-float-particle-2" />
-      </div>
+    <div className="min-h-screen bg-background flex flex-col relative">
+      <AnimatedBackground />
 
       {/* Header */}
       <header className="relative z-10 border-b border-border/50 backdrop-blur-sm bg-background/80">
@@ -113,7 +92,7 @@ const Home = () => {
       </main>
 
       {/* Features Section */}
-      <section id="features" className="relative z-10 py-20 border-t border-border/50 bg-card/50 backdrop-blur-sm">
+      <section id="features" className="relative z-10 py-20 border-t border-border/50 bg-card/30 backdrop-blur-sm">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">How It Works</h2>
@@ -123,7 +102,7 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="group relative p-8 rounded-2xl bg-background border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
+            <div className="group relative p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/30 shadow-apple hover:shadow-apple-hover transition-all duration-300">
               <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <MapPin className="h-7 w-7 text-primary" />
               </div>
@@ -133,7 +112,7 @@ const Home = () => {
               </p>
             </div>
             
-            <div className="group relative p-8 rounded-2xl bg-background border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
+            <div className="group relative p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/30 shadow-apple hover:shadow-apple-hover transition-all duration-300">
               <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Clock className="h-7 w-7 text-primary" />
               </div>
@@ -143,7 +122,7 @@ const Home = () => {
               </p>
             </div>
             
-            <div className="group relative p-8 rounded-2xl bg-background border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
+            <div className="group relative p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/30 shadow-apple hover:shadow-apple-hover transition-all duration-300">
               <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Users className="h-7 w-7 text-primary" />
               </div>

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Header } from "@/components/Header";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { LocationInput } from "@/components/LocationInput";
 import { FilterBar } from "@/components/FilterBar";
 import { PlaceList } from "@/components/PlaceList";
@@ -46,10 +47,11 @@ const Search = () => {
   const isInitial = !location && !loadingState.isLoading && places.length === 0 && !error;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col relative">
+      <AnimatedBackground />
       <Header />
       
-      <main className="container py-8 flex-1 flex flex-col">
+      <main className="container py-8 flex-1 flex flex-col relative z-10">
         {/* Search + Filters */}
         <section className={isInitial ? "flex-1 flex items-center justify-center" : "mb-8"}>
           <div className="w-full max-w-2xl">
@@ -72,7 +74,7 @@ const Search = () => {
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="h-14 w-14 shrink-0"
+                      className="h-14 w-14 shrink-0 bg-card/80 backdrop-blur-sm"
                       aria-label="Filters"
                     >
                       <SlidersHorizontal className="h-5 w-5" />
@@ -127,7 +129,7 @@ const Search = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border mt-16 py-8">
+      <footer className="relative z-10 border-t border-border/50 mt-16 py-8 bg-background/80 backdrop-blur-sm">
         <div className="container text-center text-sm text-muted-foreground">
           <p>VolunteerNow — Find meaningful ways to give back 💚</p>
         </div>

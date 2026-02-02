@@ -12,8 +12,8 @@ export function PlaceCard({ place }: PlaceCardProps) {
   const googleMapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(place.name + ", " + place.address)}`;
 
   return (
-    <article className="group flex flex-col rounded-xl border border-border overflow-hidden card-shadow transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1 bg-gradient-to-br from-card via-card to-card/80 backdrop-blur-sm">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
+    <article className="group flex flex-col rounded-2xl border border-border overflow-hidden bg-card/80 backdrop-blur-sm shadow-apple hover:shadow-apple-hover transition-all duration-300 hover:-translate-y-1">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl" />
       
       <div className="p-5 flex-1 relative">
         <div className="flex items-start justify-between gap-3 mb-3">

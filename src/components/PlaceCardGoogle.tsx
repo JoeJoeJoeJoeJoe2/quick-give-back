@@ -18,7 +18,7 @@ export function PlaceCardGoogle({ place }: PlaceCardGoogleProps) {
   const googleMapsUrl = buildGoogleMapsUrl(place);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-border card-shadow transition-all duration-300 hover:card-shadow-hover hover:-translate-y-1">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/80 backdrop-blur-sm shadow-apple hover:shadow-apple-hover transition-all duration-300 hover:-translate-y-1">
       {/* translucent gradient wash */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background/40 to-accent/10 opacity-60" />
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
