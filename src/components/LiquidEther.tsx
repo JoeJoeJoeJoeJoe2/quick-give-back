@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 interface LiquidEtherProps {
@@ -12,7 +12,8 @@ interface LiquidEtherProps {
   BFECC?: boolean;
   resolution?: number;
   isBounce?: boolean;
-  colors?: string[];
+  colorsLight?: string[];
+  colorsDark?: string[];
   style?: React.CSSProperties;
   className?: string;
   autoDemo?: boolean;
@@ -34,7 +35,8 @@ export default function LiquidEther({
   BFECC = true,
   resolution = 0.5,
   isBounce = false,
-  colors = ['#2a9d8f', '#264653', '#e9c46a'],
+  colorsLight = ['#2a9d8f', '#1d7a6f', '#e9c46a', '#f4a261'],
+  colorsDark = ['#3abfad', '#50d9c6', '#f5d485', '#f7b57a'],
   style = {},
   className = '',
   autoDemo = true,
@@ -51,6 +53,24 @@ export default function LiquidEther({
   const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
   const isVisibleRef = useRef(true);
   const resizeRafRef = useRef<number | null>(null);
+  const paletteTexRef = useRef<THREE.DataTexture | null>(null);
+  
+  // Detect theme changes
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof document !== 'undefined') {
+      return document.documentElement.classList.contains('dark');
+    }
+    return false;
+  });
+  
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const dark = document.documentElement.classList.contains('dark');
+      setIsDark(dark);
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -85,9 +105,10 @@ export default function LiquidEther({
       return tex;
     }
 
-    const paletteTex = makePaletteTexture(colors);
+    const currentColors = isDark ? colorsDark : colorsLight;
+    const paletteTex = makePaletteTexture(currentColors);
+    paletteTexRef.current = paletteTex;
     const bgVec4 = new THREE.Vector4(0, 0, 0, 0);
-
     class CommonClass {
       width = 0;
       height = 0;
@@ -1162,7 +1183,9 @@ export default function LiquidEther({
     mouseForce,
     resolution,
     viscous,
-    colors,
+    colorsLight,
+    colorsDark,
+    isDark,
     autoDemo,
     autoSpeed,
     autoIntensity,

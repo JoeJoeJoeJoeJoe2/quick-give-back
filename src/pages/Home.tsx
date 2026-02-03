@@ -10,7 +10,8 @@ const Home = () => {
       {/* Liquid Ether Background */}
       <div className="fixed inset-0 -z-10">
         <LiquidEther
-          colors={['#2a9d8f', '#264653', '#e9c46a', '#f4a261']}
+          colorsLight={['#2a9d8f', '#1d7a6f', '#e9c46a', '#f4a261']}
+          colorsDark={['#3abfad', '#50d9c6', '#f5d485', '#f7b57a']}
           mouseForce={15}
           cursorSize={120}
           resolution={0.4}
