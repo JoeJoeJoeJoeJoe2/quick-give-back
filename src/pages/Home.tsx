@@ -1,13 +1,25 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
+import LiquidEther from "@/components/LiquidEther";
 import { Heart, MapPin, Clock, Users, ArrowRight } from "lucide-react";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col relative">
-      <AnimatedBackground />
+      {/* Liquid Ether Background */}
+      <div className="fixed inset-0 -z-10">
+        <LiquidEther
+          colors={['#2a9d8f', '#264653', '#e9c46a', '#f4a261']}
+          mouseForce={15}
+          cursorSize={120}
+          resolution={0.4}
+          autoDemo={true}
+          autoSpeed={0.3}
+          autoIntensity={1.8}
+          autoResumeDelay={2000}
+        />
+      </div>
 
       {/* Header */}
       <header className="relative z-10 border-b border-border/50 backdrop-blur-sm bg-background/80">
